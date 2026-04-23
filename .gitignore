@@ -1,0 +1,7 @@
+node_modules/
+dist/
+src-tauri/target/
+.vite/
+dist-builds/
+.env
+.env.*
