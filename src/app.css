@@ -1,0 +1,252 @@
+/**
+ * Global stylesheet: design tokens, themes, motion keyframes and the handful
+ * of app-wide helpers.
+ *
+ * It lives here rather than inside App.svelte because the mini-player window
+ * is a separate webview with its own bundle and needs the same tokens. Both
+ * entry points (main.ts, mini-player.ts) import it.
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: 2px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
+}
+
+html {
+  font-size: clamp(13px, 12.13px + 0.229vw, 18px);
+}
+
+:root {
+  --color-bg: #faf9f5;
+  --color-surface: #ffffff;
+  --color-surface-container: #f8f7f3;
+  --color-surface-high: #f2f1ec;
+  --color-surface-highest: #e9e8e2;
+  --color-surface-lowest: #ffffff;
+  --color-surface-dim: #f0efe9;
+
+  --color-primary: #00696b;
+  --color-primary-container: #0d7377;
+  --color-primary-fixed-dim: #81d4d8;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #a2f5f9;
+
+  /* Neutral "fill" pair — replaces every gradient/accent button surface */
+  --color-ink: #1b1c1a;
+  --color-on-ink: #ffffff;
+
+  --color-secondary: #466365;
+  --color-secondary-container: #c9e9ea;
+  --color-on-secondary-container: #4c696b;
+
+  --color-text: #1b1c1a;
+  --color-text-variant: #5d6360;
+  --color-outline: #8b908d;
+  --color-outline-variant: #e3e2dc;
+
+  --color-error: #ba1a1a;
+
+  /* Spacing — all in rem, scales with root font-size */
+  --spacing-xs: 0.2rem;
+  --spacing-sm: 0.45rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1.15rem;
+  --spacing-xl: 1.6rem;
+
+  --font-headline: "Newsreader", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Manrope", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Font sizes — fixed rem ratios, scale via root */
+  --font-size-xs: 0.72rem;
+  --font-size-sm: 0.82rem;
+  --font-size-md: 0.92rem;
+  --font-size-lg: 1.1rem;
+  --font-size-xl: 1.35rem;
+  --font-size-display: 1.6rem;
+
+  /* One radius scale: 6 / 8 / 10 / 12 px at the prototype's 14.4px root */
+  --radius-sm: 0.42rem;
+  --radius-md: 0.55rem;
+  --radius-lg: 0.7rem;
+  --radius-xl: 0.83rem;
+
+  /* Hairline is the default edge; shadows are reserved for overlays */
+  --hairline: 1px solid var(--color-outline-variant);
+  --shadow-ambient: 0 18px 40px rgba(0, 0, 0, 0.14);
+  --shadow-card: none;
+  --shadow-panel: 0 18px 40px rgba(0, 0, 0, 0.14);
+  --shadow-window: 0 24px 64px rgba(0, 0, 0, 0.18);
+  --shadow-play: 0 8px 22px rgba(0, 0, 0, 0.18);
+
+  /* ---- Motion set (handoff 1e). Zeroed under reduce-motion, below. ---- */
+  --motion-press: 180ms;
+  --motion-fast: 160ms;
+  --motion-lift: 200ms;
+  --motion-progress: 200ms;
+  --motion-panel: 220ms;
+  --motion-rise: 240ms;
+  --motion-morph: 260ms;
+  --motion-overlay: 260ms;
+  --motion-pop: 420ms;
+  --motion-flight: 460ms;
+  --motion-spin: 860ms;
+  --motion-eq: 900ms;
+  --motion-shimmer: 1.5s;
+  --motion-breathe: 2.2s;
+  --motion-stagger: 34ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-flight: cubic-bezier(0.2, 0.85, 0.2, 1);
+  --ease-pop: cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+[data-font-family="modern"] {
+  --font-headline: "Source Serif 4", "Source Serif Pro", serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+[data-font="compact"] {
+  font-size: clamp(11px, 10.13px + 0.229vw, 15px);
+}
+
+[data-font="large"] {
+  font-size: clamp(15px, 14.13px + 0.229vw, 21px);
+}
+
+[data-theme="dark"] {
+  --color-bg: #0e0f10;
+  --color-surface: #16181a;
+  --color-surface-container: #1a1d1f;
+  --color-surface-high: #1e2124;
+  --color-surface-highest: #262a2e;
+  --color-surface-lowest: #16181a;
+  --color-surface-dim: #0b0c0d;
+
+  --color-primary: #4db6ac;
+  --color-primary-container: #00796b;
+  --color-primary-fixed-dim: #80cbc4;
+  --color-on-primary: #101214;
+  --color-on-primary-container: #b2dfdb;
+
+  --color-ink: #edeeef;
+  --color-on-ink: #101214;
+
+  --color-secondary: #9e9894;
+  --color-secondary-container: #3a3835;
+  --color-on-secondary-container: #d4ceca;
+
+  --color-text: #edeeef;
+  --color-text-variant: #9aa1a6;
+  --color-outline: #6b7379;
+  --color-outline-variant: #2a2e32;
+
+  --color-error: #ff6b6b;
+
+  --shadow-ambient: 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-card: none;
+  --shadow-panel: 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-window: 0 24px 64px rgba(0, 0, 0, 0.5);
+  --shadow-play: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow: hidden;
+  height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.93);
+  transition: transform var(--motion-press) var(--ease-out);
+}
+
+.filter-chip.active,
+.option-btn.active,
+.pv-speed.active {
+  background: var(--color-ink) !important;
+  color: var(--color-on-ink) !important;
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+.spinning { animation: ab-spin 1s linear infinite; }
+
+/* Monospace helper for timestamps, counts and metadata values (used by the player components) */
+.mono { font-family: var(--font-mono, ui-monospace, "JetBrains Mono", monospace); }
+
+/* ---- Shared motion keyframes (handoff 1e) ----
+   Declared -global- so any component can reference them by name; Svelte
+   otherwise scopes keyframe names to the component that declares them. */
+@keyframes ab-rise { from { opacity: 0; transform: translateY(6px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes ab-panel { from { opacity: 0; transform: translateY(-4px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes ab-pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.06); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes ab-shimmer { from { background-position: 220% 0; } to { background-position: -220% 0; } }
+@keyframes ab-eq { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
+@keyframes ab-breathe { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+@keyframes ab-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- Reduced motion ----
+   Either the OS setting or Settings → Reduce motion (data-reduce-motion).
+   Kept: the play/pause morph, progress, spinners. Dropped: lift, flight,
+   drop overshoot, shimmer, the equalizer's bounce, panel stagger. */
+[data-reduce-motion="on"] {
+  --motion-lift: 0ms;
+  --motion-flight: 0ms;
+  --motion-pop: 0ms;
+  --motion-panel: 120ms;
+  --motion-rise: 0ms;
+  --motion-stagger: 0ms;
+  --motion-overlay: 0ms;
+}
+
+[data-reduce-motion="on"] .ab-lift:hover { transform: none !important; }
+[data-reduce-motion="on"] .ab-shimmer { animation: none !important; }
+[data-reduce-motion="on"] .ab-breathe { animation: none !important; opacity: 0.8 !important; }
+[data-reduce-motion="on"] .ab-eq-bar { animation: none !important; }
+[data-reduce-motion="on"] .ab-pop { animation: none !important; }
+
+/* Pointer drag in progress (utils/pointerDrag.ts): no text selection, grab cursor everywhere */
+body.ab-dragging,
+body.ab-dragging * {
+  cursor: grabbing !important;
+  user-select: none;
+}
+@keyframes ab-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
